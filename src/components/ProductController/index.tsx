@@ -71,12 +71,13 @@ export const ProductController = ({ product, pageType }: ProductControllerProps)
         </button>
       </div>
       <button
+        className='flex flex-row'
         onClick={() => {
           addProductToCart();
         }}
       >
-        <img src={buttonIcon} alt="" />
-        {pageType === 'cart' && 'Remover'}
+        <img className='w-8 h-8 pt-2 pr-2' src={buttonIcon} alt="" />
+        {pageType === 'cart' && <span className='pt-1.5'>Remover</span>}
       </button>
     </div>
   );

@@ -3,6 +3,7 @@ import styles from './styles.module.scss';
 import { useContext, useState } from 'react';
 import { CartContext } from '../../contexts/CartContext';
 import { ProductController } from '../ProductController';
+import { Link } from 'react-router-dom';
 
 export type Product = {
   id: number;
@@ -32,13 +33,15 @@ export const ProductCard = ({ product, pageType }: ProductCardProps) => {
   return (
     <div className={styles.cardContainer}>
       <div className={styles.cardContent}>
-        <img src={product.imageSrc} alt="Nao carregou" className={styles.productImage} />
+        <Link to={`/product/${product.id}/view`}>
+          <img src={product.imageSrc} alt="Nao carregou" className={styles.productImage} />
 
-        <div className={styles.productInfo}>
-          <div className={styles.productTag}>{tags && tags.map((tag) => productTag(tag))}</div>
-          <h3>{name}</h3>
-          <p>{formataDescricao(description)}</p>
-        </div>
+          <div className={styles.productInfo}>
+            <div className={styles.productTag}>{tags && tags.map((tag) => productTag(tag))}</div>
+            <h3>{name}</h3>
+            <p>{formataDescricao(description)}</p>
+          </div>
+        </Link>
 
         <div className={styles.priceContainer}>
           <span>

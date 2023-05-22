@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 export const Header = () => {
   const { totalProductsInCart, userLoged, isLoged, signOut } = useContext(CartContext);
-
+  const classesLink = 'pt-3'
   return (
     <div className={styles.headerContainer}>
       <div className={styles.headerContent}>
@@ -20,7 +20,7 @@ export const Header = () => {
         </Link>
         {
           isLoged && userLoged.userGroup === 'ADMIN'
-            ? < Link to="/admin/user/list">
+            ? < Link className={classesLink} to="/admin/user/list">
               <button >
                 Users
               </button>
@@ -29,12 +29,12 @@ export const Header = () => {
         }
         {
           isLoged
-            ? <Link to="/admin/login" onClickCapture={signOut}>
+            ? <Link className={classesLink} to="/admin/login" onClickCapture={signOut}>
               <button >
                 Sair
               </button>
             </Link>
-            : <Link to="/admin/login">
+            : <Link className={classesLink} to="/admin/login">
               <button >
                 Login
               </button>
@@ -43,13 +43,13 @@ export const Header = () => {
         {
           isLoged
             ? ''
-            : <Link to="/admin/user/register">
+            : <Link className={classesLink} to="/admin/user/register">
               <button >
                 Register
               </button>
             </Link>
         }
-        <Link to="/cart">
+        <Link className={classesLink} to="/cart">
           <button className={styles.headerCart}>
             <img src={cartIcon} alt="" />
             {totalProductsInCart > 0 && <span>{totalProductsInCart}</span>}

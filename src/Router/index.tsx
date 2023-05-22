@@ -8,6 +8,7 @@ import { UserList } from '../pages/User/List';
 import { Register } from '../pages/User/Register';
 import { RegisterProduct } from '../pages/RegisterProduct';
 import { UserEdit } from '../pages/User/[id]/edit';
+import ProductPage from '../pages/Product/[id]/view';
 
 export const Router = () => {
   return (
@@ -21,6 +22,8 @@ export const Router = () => {
         <Route path="/admin/user/registerProduct" element={<RegisterProduct />} />
         <Route path="/admin/user/list" element={<UserList />} />
         <Route path="/admin/user/:id/edit" element={<UserEdit />} />
+        <Route path="/admin/user/:id/edit" element={<UserEdit />} />
+        <Route path="/product/:id/view" element={<ProductPage />} />
       </Route>
     </Routes>
   );

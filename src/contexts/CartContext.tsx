@@ -69,7 +69,10 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const totalPrice = products
     .reduce((total, item) => (total += item.price * item.amount), 0)
-    .toFixed(2);
+    .toLocaleString();
+
+  const totalPriceNumber = products
+    .reduce((total, item) => (total += item.price * item.amount), 0);
 
   useEffect(() => {
     const retrieveProducts = localStorage.getItem('coffe-delivery-cart');
@@ -96,6 +99,7 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
         signOut,
         userLoged,
         isLoged,
+        totalPriceNumber
       }}
     >
       {children}
