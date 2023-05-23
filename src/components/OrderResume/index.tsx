@@ -4,9 +4,36 @@ import { CartContext } from '../../contexts/CartContext';
 import { Product } from '../ProductCard';
 import { ProductController } from '../ProductController';
 import './OrderResume.css'
+import { CalcularFrete } from '../../services/CalcularFrete';
 
 export const OrderResume = () => {
   const { products, totalPrice, totalPriceNumber } = useContext(CartContext);
+  const [frete, setFrete] = useState(0);
+  const [cep, setCep] = useState('');
+  const [cepInvalido, setCepInvalido] = useState(false);
+  const [freteIndisponivel, setFreteIndisponivel] = useState(false);
+
+  const onlyNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let regex = /\d+/g
+    if (regex.test(e.currentTarget.value)) {
+      setCep(e.currentTarget.value);
+    }
+  }
+
+  const calcularFrete = () => {
+    if (cep.length < 8) {
+      setCepInvalido(true);
+    } else {
+      setCepInvalido(false);
+      let valorFrete = CalcularFrete(cep);
+      if (valorFrete < 0) {
+        setFreteIndisponivel(true);
+      } else {
+        setFreteIndisponivel(false);
+        setFrete(valorFrete);
+      }
+    }
+  }
 
   return (
     <>
@@ -39,18 +66,27 @@ export const OrderResume = () => {
                   </div>
                   <div className='flex flex-row w-48 justify-between flex-grow'>
                     <span>Frete:  </span>
-                    <span className='ml-1 text-green-600'> R$ 200,00</span>
+                    <span className='ml-1 text-green-600'>R$ {frete.toFixed(2).replace('.', ',')}</span>
                   </div>
                   <div className='flex flex-row w-48 mt-2 justify-between flex-grow border-t-2'>
                     <span>Total:  </span>
-                    <span className='ml-1 text-green-600'>${Number(totalPriceNumber + 200).toLocaleString()}</span>
+                    <span className='ml-1 text-green-600'>R$ {Number(totalPriceNumber + 200).toLocaleString()}</span>
                   </div>
                 </div>
               </div>
-              <div className='w-80 mt-4 flex items-center'>
-                <button className='flex flex-grow justify-center p-4 rounded-xl bg-green-600 text-white'>
+              <div className='mt-4 flex w-80 justify-center items-center flex-col border rounded-lg p-2 '>
+                <span className='flex flex-grow'>Frete</span>
+                <input value={cep} onChange={onlyNumber} type='text' maxLength={8} className='border-2 border-green-600 rounded-md flex flex-grow text-center w-full' />
+                {cepInvalido && <span className='mt-1 text-xs text-red-500'>CEP inválido</span>}
+                <button onClick={calcularFrete} className='flex w-full mt-2 p-2 justify-center rounded-xl bg-green-600 text-white'>
+                  Calcular
+                </button>
+              </div>
+              <div className='w-80 mt-12 flex items-center flex-col'>
+                <button disabled={freteIndisponivel} className='w-full flex flex-grow justify-center p-4 rounded-xl bg-green-600 text-white disabled:bg-zinc-400'>
                   Finalizar Compra
                 </button>
+                {freteIndisponivel && <span className='text-lg text-red-500'>Frete indisponível para região</span>}
               </div>
             </div>
           </div>
