@@ -12,7 +12,8 @@ import ReactInputMask from 'react-input-mask';
 interface FormData {
     name: string;
     dataNascimento: string;
-    gender: number
+    gender: number,
+    password?: string
 }
 
 const ClientPage = (props: any) => {
@@ -65,7 +66,15 @@ const ClientPage = (props: any) => {
 
     const buscarEnderecos = async () => {
         const { data } = await axios.get(`https://jersey-market-api-production.up.railway.app/client/address/id${userLoged.id}`);
-        setEnderecos(data);
+        let enderecosAlterados = data.map((item: any) => {
+            return {
+                ...item,
+                checked: item.type === 'DEFAULT'
+            }
+        });
+
+        setEnderecos(enderecosAlterados);
+
     }
 
     const fecharModal = () => {
@@ -82,13 +91,17 @@ const ClientPage = (props: any) => {
     }
 
     const alterarEnderecoPadrao = (e: any) => {
-        if (e.current) {
-            setEnderecoPadrao(e.current.value);
+        if (e.currentTarget) {
+            setEnderecoPadrao(e.currentTarget.value);
+            e.currentTarget.checked = true;
         }
     }
 
     const onSubmit = async (data: FormData) => {
         try {
+            if (!data.password || data.password === '') {
+                delete data.password;
+            }
             await axios.put(`https://jersey-market-api-production.up.railway.app/client/id${userLoged.id}/update`, data)
                 .then((response) => signIn(response.data));
             toast.success('Usuário alterado com sucesso!', {
@@ -148,6 +161,12 @@ const ClientPage = (props: any) => {
                                     </select>
                                     {errors.gender && <p className={classesErro}>{errors.gender.message}</p>}
                                 </div>
+                                {estadoAlteracao && <div className={classesDivInput}>
+                                    <label className='pl-1'>Nova Senha</label>
+                                    <input {...register('password')} disabled={!estadoAlteracao} className={`${classesInput} ${errors.password && 'border-red-500'}`} />
+                                    {errors.password && <p className={classesErro}>{errors.password.message}</p>}
+                                </div>
+                                }
                             </div>
                             <div>
                                 {
@@ -180,7 +199,7 @@ const ClientPage = (props: any) => {
                                 {
                                     enderecos.map((endereco: any) => {
                                         return (
-                                            <div className='flex justify-start'>
+                                            <div key={endereco.id} className='flex justify-start'>
                                                 <input name='rdEnderecoPadrao' type="radio" onChange={alterarEnderecoPadrao} value={endereco.id} />
                                                 <span className='ml-2'>{endereco.logradouro}</span>
                                                 <span>, {endereco.numero}</span>

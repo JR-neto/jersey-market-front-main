@@ -6,7 +6,8 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import { CartContext } from '../../../contexts/CartContext';
 
 interface FormData {
   name: string;
@@ -33,6 +34,7 @@ interface UserFormProps {
 }
 
 export const UserForm = ({ isEdit, currentUser }: UserFormProps) => {
+  const { userLoged } = useContext(CartContext);
 
   const userMap = {
     "ADMIN": 1,
@@ -186,13 +188,12 @@ export const UserForm = ({ isEdit, currentUser }: UserFormProps) => {
           <div>
             <label>
               Perfil*
-              <select {...register('userGroup')} className={errors.userGroup ? styles.error : ''} defaultValue={0}>
+              <select disabled={!(isEdit && userLoged.userGroup && userLoged.userGroup === 'ADMIN')} {...register('userGroup')} className={errors.userGroup ? styles.error : 'disabled:bg-zinc-200'} defaultValue={0}>
                 <option value="0" disabled >
                   Selecionar perfil
                 </option>
                 <option value="1">Admin</option>
                 <option value="2">Estoquista</option>
-                <option value="3">Cliente</option>
               </select>
             </label>
             {errors.userGroup && <p className={styles.errorMessage}>{errors.userGroup.message}</p>}

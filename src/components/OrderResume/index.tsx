@@ -100,7 +100,7 @@ export const OrderResume = () => {
                   </div>
                   <div className='flex flex-row w-48 mt-2 justify-between flex-grow border-t-2'>
                     <span>Total:  </span>
-                    <span className='ml-1 text-green-600'>R$ {Number(totalPriceNumber + 200).toLocaleString()}</span>
+                    <span className='ml-1 text-green-600'>R$ {Number(totalPriceNumber + frete).toLocaleString()}</span>
                   </div>
                 </div>
               </div>

@@ -11,6 +11,7 @@ import { UserEdit } from '../pages/User/[id]/edit';
 import ProductPage from '../pages/Product/[id]/view';
 import { RegisterClient } from '../pages/RegisterClient';
 import ClientPage from '../pages/Client/[id]/edit';
+import StoragePage from '../pages/Storage';
 
 export const Router = () => {
   return (
@@ -27,6 +28,7 @@ export const Router = () => {
         <Route path="/product/:id/view" element={<ProductPage />} />
         <Route path="/client/register" element={<RegisterClient />} />
         <Route path="/client/:id/edit" element={<ClientPage />} />
+        <Route path="/storage" element={<StoragePage />} />
       </Route>
     </Routes>
   );

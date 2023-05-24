@@ -42,11 +42,26 @@ export const Header = () => {
         }
         {
           isLoged
-            ? <><Link className={classesLink} to="/client/:id/edit">
-              <button >
-                Dados
-              </button>
-            </Link>
+            ? <>
+              {
+                userLoged.userGroup
+                  ? <><Link className={classesLink} to={`/admin/user/${userLoged.id}/edit`}>
+                    <button >
+                      Dados
+                    </button>
+                  </Link>
+                    <Link className={classesLink} to='/storage'>
+                      <button >
+                        Storage
+                      </button>
+                    </Link>
+                  </>
+                  : <Link className={classesLink} to="/client/:id/edit">
+                    <button >
+                      Dados
+                    </button>
+                  </Link>
+              }
               <Link className={classesLink} to="/admin/login" onClickCapture={signOut}>
                 <button >
                   Sair

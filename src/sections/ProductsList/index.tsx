@@ -9,8 +9,9 @@ export const ProductsList = () => {
 
   const retrieveProducts = async () => {
     const { data } = await axios.get('https://jersey-market-api-production.up.railway.app/product/list');
-    setProducts(data);
+    setProducts(data.filter((product: any) => product.status === 'ACTIVE'));
   };
+
 
   useEffect(() => {
     retrieveProducts();

@@ -1,5 +1,4 @@
 import styles from './styles.module.scss';
-
 import { useContext, useState } from 'react';
 import { CartContext } from '../../contexts/CartContext';
 import { ProductController } from '../ProductController';
@@ -34,12 +33,12 @@ export const ProductCard = ({ product, pageType }: ProductCardProps) => {
     <div className={styles.cardContainer}>
       <div className={styles.cardContent}>
         <Link to={`/product/${product.id}/view`}>
-          <img src={product.imageSrc} alt="Nao carregou" className={styles.productImage} />
+          <img src={`data:image/jpeg;base64, ${product.imageSrc}`} alt="Nao carregou" className={styles.productImage} />
 
           <div className={styles.productInfo}>
             <div className={styles.productTag}>{tags && tags.map((tag) => productTag(tag))}</div>
             <h3>{name}</h3>
-            <p>{formataDescricao(description)}</p>
+            {/* <p>{formataDescricao(description)}</p> */}
           </div>
         </Link>
 
