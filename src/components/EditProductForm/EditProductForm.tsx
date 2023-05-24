@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import * as yup from 'yup';
@@ -15,13 +15,13 @@ type Product = {
 }
 
 const EditProductForm = (props: any) => {
-    const { product, callBack } = props;
+    const { product, callBack, inclusao } = props;
     const { userLoged } = useContext(CartContext);
+    const admin = userLoged.userGroup && userLoged.userGroup === 'ADMIN';
     const classesInput = `py-1 px-4 border border-green-600 rounded-md disabled:bg-zinc-200`;
     const classesLabel = 'w-20 pt-1';
     const classesErro = 'text-red-500 text-xs pt-1 ml-24';
-    const initialStatus = product.status === 'ACTIVE' ? 1 : 0;
-    const admin = userLoged.userGroup && userLoged.userGroup === 'ADMIN';
+    const initialStatus = !product || product.status === 'ACTIVE' ? 1 : 0;
 
     const onlyNumber = (e: any) => {
         let regex = /[^0-9\.]/g
@@ -59,7 +59,11 @@ const EditProductForm = (props: any) => {
 
     const onSubmit = async (data: Product) => {
         try {
-            await axios.put(`https://jersey-market-api-production.up.railway.app/product/id${product.id}/update`, data);
+            if (inclusao) {
+                await axios.post(`https://jersey-market-api-production.up.railway.app/product/register`, data);
+            } else {
+                await axios.put(`https://jersey-market-api-production.up.railway.app/product/id${product.id}/update`, data);
+            }
             callBack();
 
         } catch (e) {
@@ -69,6 +73,7 @@ const EditProductForm = (props: any) => {
             console.log(e);
         }
     }
+
     return (
         <form className='w-full pt-16 pl-20 pr-20 pb-8 space-y-4 rounded-md' onSubmit={handleSubmit(onSubmit)}>
             <ToastContainer />
@@ -146,7 +151,7 @@ const EditProductForm = (props: any) => {
                     Status:
                 </label>
                 <select
-                    disabled={!admin}
+                    disabled={!admin || inclusao}
                     className={`${classesInput} ${errors.status && 'border-red-500'}`}
                     id='status'
                     placeholder="Status"
@@ -158,7 +163,7 @@ const EditProductForm = (props: any) => {
                 {errors.status && <p>{errors.status.message}</p>}
             </div>
             <div className='w-full flex justify-center'>
-                <button type='submit' className='p-2 w-40 bg-green-500 text-white rounded-md'>Salvar</button>
+                <button type='submit' className='p-2 w-40 bg-green-500 text-white rounded-md'>{inclusao ? 'Adicionar' : 'Salvar'}</button>
             </div>
         </form>
     )

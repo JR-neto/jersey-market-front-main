@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { Product } from '../../contexts/CartContext';
+import React, { useContext, useEffect, useState } from 'react'
+import { CartContext, Product } from '../../contexts/CartContext';
 import axios from 'axios';
 import Modal from '../../components/Modal/Modal';
 import EditProductForm from '../../components/EditProductForm/EditProductForm';
 import { ToastContainer, toast } from 'react-toastify';
 
 const StoragePage = () => {
+    const { userLoged } = useContext(CartContext);
+    const admin = userLoged.userGroup && userLoged.userGroup === 'ADMIN';
     const [products, setProducts] = useState<any[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
     const [name, setName] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<any>();
+    const [inclusao, setInclusao] = useState(false);
 
     const retrieveProducts = async () => {
         const { data } = await axios.get('https://jersey-market-api-production.up.railway.app/product/list');
@@ -48,13 +51,26 @@ const StoragePage = () => {
     }
 
     const openModal = (produto: any) => {
+        setInclusao(false);
         setSelectedProduct(produto);
+        setShowModal(true);
+    }
+
+    const openModalInsert = () => {
+        setInclusao(true);
+        setSelectedProduct({
+            quantity: '',
+            price: '',
+            name: '',
+            description: '',
+            status: 'ACTIVE',
+        });
         setShowModal(true);
     }
 
     const retornoAlterarProduto = () => {
         setShowModal(false);
-        toast.success('Produto alterado com sucesso!', {
+        toast.success(`Produto ${inclusao ? 'incluído' : 'alterado'} com sucesso!`, {
             position: toast.POSITION.TOP_RIGHT,
         });
         return retrieveProducts();
@@ -71,7 +87,15 @@ const StoragePage = () => {
                 <div className='ml-12'>
                     <label>Nome:</label>
                     <input onChange={setarName} className='p-1 ml-2 border border-zinc-300 rounded-md w-96' />
-                    <button onClick={filtrarProdutos} className='ml-2 w-24 bg-green-500 rounded-md text-white p-1'>Pesquisar</button>
+                    <button onClick={filtrarProdutos} className='ml-2 w-24 bg-green-500 rounded-md text-white p-1'>
+                        Pesquisar
+                    </button>
+                    {
+                        admin &&
+                        <button onClick={openModalInsert} className='ml-12 w-32 bg-green-500 rounded-md text-white p-1'>
+                            Novo Produto
+                        </button>
+                    }
                 </div>
                 <div className='grid grid-cols-2 gap-12 m-12'>
                     {
@@ -101,7 +125,7 @@ const StoragePage = () => {
                     }
                 </div>
             </div>
-            <Modal showModal={showModal} setShowModal={setShowModal} component={<EditProductForm product={selectedProduct} callBack={retornoAlterarProduto} />} />
+            <Modal showModal={showModal} setShowModal={setShowModal} component={<EditProductForm product={selectedProduct} callBack={retornoAlterarProduto} inclusao={inclusao} />} />
         </>
     )
 }
