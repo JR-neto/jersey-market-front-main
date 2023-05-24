@@ -19,7 +19,7 @@ export const Header = () => {
           />
         </Link>
         {
-          isLoged && userLoged.userGroup === 'ADMIN'
+          isLoged && userLoged.userGroup && userLoged.userGroup === 'ADMIN'
             ? < Link className={classesLink} to="/admin/user/list">
               <button >
                 Users
@@ -29,23 +29,32 @@ export const Header = () => {
         }
         {
           isLoged
-            ? <Link className={classesLink} to="/admin/login" onClickCapture={signOut}>
+            ? userLoged.userGroup && userLoged.userGroup === 'ADMIN' && <Link className={classesLink} to="/admin/user/register">
               <button >
-                Sair
+                Register
               </button>
             </Link>
-            : <Link className={classesLink} to="/admin/login">
+            : <Link className={classesLink} to="/client/register">
               <button >
-                Login
+                Register
               </button>
             </Link>
         }
         {
           isLoged
-            ? ''
-            : <Link className={classesLink} to="/admin/user/register">
+            ? <><Link className={classesLink} to="/client/:id/edit">
               <button >
-                Register
+                Dados
+              </button>
+            </Link>
+              <Link className={classesLink} to="/admin/login" onClickCapture={signOut}>
+                <button >
+                  Sair
+                </button>
+              </Link> </>
+            : <Link className={classesLink} to="/admin/login">
+              <button >
+                Login
               </button>
             </Link>
         }

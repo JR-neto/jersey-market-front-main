@@ -39,15 +39,23 @@ export const Login = () => {
     defaultValues: defaultValues
   });
 
+  const responseLogin = (response: any) => {
+    console.log(response.data);
+    signIn(response.data);
+    setTimeout(() => { navigate('/') }, 2000);
+  }
+
   const onSubmit = async (data: LoginData) => {
     try {
       console.log(data, "Tentando fazer Login");
       await axios.post('https://jersey-market-api-production.up.railway.app/user/login', data)
-        .then(function (response) {
-          console.log(response.data.userGroup, "Resposta do login");
-          signIn(response.data);
-          setTimeout(() => { navigate('/') }, 2000);
-        });
+        .then(responseLogin)
+        .catch(
+          async function () {
+            await axios.post('https://jersey-market-api-production.up.railway.app/client/login', data)
+              .then(responseLogin)
+          }
+        );
       toast.success('Login realizado com sucesso!', {
         position: toast.POSITION.TOP_RIGHT,
       });
