@@ -75,7 +75,7 @@ export const OrderResume = () => {
               <ul className='space-y-4 text-lg overflow-y-scroll pr-8 pb-4'>
                 {products.map((product: Product) => (
                   <li className='w-96 shadow-lg p-2' key={product.id}>
-                    <img src={product.imageSrc} alt="" />
+                    <img src={product.imagemSrc} alt="" />
                     <div>
                       <span>{product.name}</span>
                       <div className='mt-2'>

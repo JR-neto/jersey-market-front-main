@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import * as yup from 'yup';
@@ -160,7 +160,6 @@ const EditProductForm = (props: any) => {
                     <option value="1">Ativo</option>
                     <option value="0">Inativo</option>
                 </select>
-                {errors.status && <p>{errors.status.message}</p>}
             </div>
             <div className='w-full flex justify-center'>
                 <button type='submit' className='p-2 w-40 bg-green-500 text-white rounded-md'>{inclusao ? 'Adicionar' : 'Salvar'}</button>

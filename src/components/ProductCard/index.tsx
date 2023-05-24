@@ -1,8 +1,9 @@
 import styles from './styles.module.scss';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { CartContext } from '../../contexts/CartContext';
 import { ProductController } from '../ProductController';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export type Product = {
   id: number;
@@ -10,7 +11,7 @@ export type Product = {
   description: string;
   price: number;
   tags: string[];
-  imageSrc: string;
+  imagemSrc: string;
   amount: number;
 };
 interface ProductCardProps {
@@ -21,19 +22,25 @@ interface ProductCardProps {
 export const ProductCard = ({ product, pageType }: ProductCardProps) => {
   const productTag = (text: string) => <span key={text}>{text}</span>;
   const { name, description, price, tags } = product;
+  const [imagem, setImage] = useState('');
 
-  const formataDescricao = (descricao: string) => {
-    if (descricao.length > 40) {
-      return descricao.substring(0, 100) + '...';
+  const getImages = async () => {
+    const { data } = await axios.get(`https://jersey-market-api-production.up.railway.app/product/img/id${product.id}`);
+    if (data.length > 0) {
+      let imagem = data[0];
+      setImage(`data:image/${imagem.type};base64,${imagem.data}`);
     }
-    return descricao;
   }
+
+  useEffect(() => {
+    getImages();
+  }, [])
 
   return (
     <div className={styles.cardContainer}>
       <div className={styles.cardContent}>
         <Link to={`/product/${product.id}/view`}>
-          <img src={`data:image/jpeg;base64, ${product.imageSrc}`} alt="Nao carregou" className={styles.productImage} />
+          <img src={imagem} alt="Nao carregou" className='w-56 h-56' />
 
           <div className={styles.productInfo}>
             <div className={styles.productTag}>{tags && tags.map((tag) => productTag(tag))}</div>
@@ -52,3 +59,7 @@ export const ProductCard = ({ product, pageType }: ProductCardProps) => {
     </div>
   );
 };
+function setSelectedImage(arg0: string) {
+  throw new Error('Function not implemented.');
+}
+

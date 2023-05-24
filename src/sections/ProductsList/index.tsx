@@ -12,7 +12,6 @@ export const ProductsList = () => {
     setProducts(data.filter((product: any) => product.status === 'ACTIVE'));
   };
 
-
   useEffect(() => {
     retrieveProducts();
   }, []);
