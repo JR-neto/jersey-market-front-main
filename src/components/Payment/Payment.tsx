@@ -47,14 +47,22 @@ const Payment = (props: any) => {
     const onSubmit = (data: FormData) => {
         finalizarCompra(tipo, data);
     }
+
+    const alterarTipo = (e: any) => {
+        if (e.currentTarget) {
+            setTipo(+e.currentTarget.value);
+            console.log(e.currentTarget.value);
+        }
+    }
+
     return (
         <div className='ml-6 mt-4'>
             <div className='w-full flex justify-center'>
-                <input checked={tipo === 0} onChange={(e) => setTipo(+e.currentTarget.value)} type='radio' name='rdTipoPagamento' value={0} />
+                <input checked={tipo === 0} onChange={alterarTipo} type='radio' name='rdTipoPagamento' value={0} />
                 <label className='pl-2'>PIX</label>
-                <input className='ml-8' checked={tipo === 1} onChange={(e) => setTipo(+e.currentTarget.value)} type='radio' name='rdTipoPagamento' value={1} />
+                <input className='ml-8' checked={tipo === 1} onChange={alterarTipo} type='radio' name='rdTipoPagamento' value={1} />
                 <label className='pl-2'>Cartão de Crédito</label>
-                <input className='ml-8' checked={tipo === 2} onChange={(e) => setTipo(+e.currentTarget.value)} type='radio' name='rdTipoPagamento' value={2} />
+                <input className='ml-8' checked={tipo === 2} onChange={alterarTipo} type='radio' name='rdTipoPagamento' value={2} />
                 <label className='pl-2'>Boleto</label>
             </div>
             <div>
@@ -122,7 +130,7 @@ const Payment = (props: any) => {
                         </div>
                     </form>
                     : <div className='w-full mt-12 flex flex-col'>
-                        <button className='w-80 flex flex-grow justify-center p-4 rounded-xl bg-green-600 text-white disabled:bg-zinc-400' onClick={() => finalizarCompra(0)}>Finalizar Compra</button>
+                        <button className='w-80 flex flex-grow justify-center p-4 rounded-xl bg-green-600 text-white disabled:bg-zinc-400' onClick={() => finalizarCompra(tipo)}>Finalizar Compra</button>
                     </div>}
 
             </div>
