@@ -97,7 +97,7 @@ export default function AdressForm(props: any) {
         }
         try {
             popularDadosCamposDesabilitados(data);
-            await axios.post(`https://jersey-market-api-production.up.railway.app/client/address/id${id}/register`, data);
+            await axios.post(`https://jersey-market-api-production-1377.up.railway.app/client/address/id${id}/register`, data);
             toast.success('Usuário cadastrado com sucesso !', {
                 position: toast.POSITION.TOP_RIGHT,
             });

@@ -25,7 +25,7 @@ export const ProductCard = ({ product, pageType }: ProductCardProps) => {
   const [imagem, setImage] = useState('');
 
   const getImages = async () => {
-    const { data } = await axios.get(`https://jersey-market-api-production.up.railway.app/product/img/id${product.id}`);
+    const { data } = await axios.get(`https://jersey-market-api-production-1377.up.railway.app/product/img/id${product.id}`);
     if (data.length > 0) {
       let imagem = data[0];
       setImage(`data:image/${imagem.type};base64,${imagem.data}`);
@@ -40,7 +40,7 @@ export const ProductCard = ({ product, pageType }: ProductCardProps) => {
     <div className={styles.cardContainer}>
       <div className={styles.cardContent}>
         <Link to={`/product/${product.id}/view`}>
-          <img src={imagem} alt="Nao carregou" className='w-56 h-56' />
+          <img src={imagem} alt="Falha ao carregar imagem" className='w-56 h-56' />
 
           <div className={styles.productInfo}>
             <div className={styles.productTag}>{tags && tags.map((tag) => productTag(tag))}</div>

@@ -97,12 +97,12 @@ export const UserForm = ({ isEdit, currentUser }: UserFormProps) => {
     try {
       if (isEdit) {
         console.log(data);
-        await axios.put(`https://jersey-market-api-production.up.railway.app/user/id${currentUser?.id}/update`, data);
+        await axios.put(`https://jersey-market-api-production-1377.up.railway.app/user/id${currentUser?.id}/update`, data);
         toast.success('Usuário atualizado com sucesso !', {
           position: toast.POSITION.TOP_RIGHT,
         });
       } else {
-        await axios.post('https://jersey-market-api-production.up.railway.app/user/register', data);
+        await axios.post('https://jersey-market-api-production-1377.up.railway.app/user/register', data);
         toast.success('Usuário cadastrado com sucesso !', {
           position: toast.POSITION.TOP_RIGHT,
         });

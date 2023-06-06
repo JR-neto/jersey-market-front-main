@@ -52,7 +52,7 @@ export const RegisterClient = () => {
   const createUser = async (naoRedirecionar?: boolean) => {
     try {
       let dadoRetorno = {};
-      await axios.post('https://jersey-market-api-production.up.railway.app/client/register', dataCreate)
+      await axios.post('https://jersey-market-api-production-1377.up.railway.app/client/register', dataCreate)
         .then((response) => {
           dadoRetorno = response.data
         });
@@ -82,7 +82,7 @@ export const RegisterClient = () => {
     setDataCreate(data);
     setCreateAdress(true);
     // try {
-    //   await axios.post('https://jersey-market-api-production.up.railway.app/client/register', data);
+    //   await axios.post('https://jersey-market-api-production-1377.up.railway.app/client/register', data);
     //   toast.success('Usuário cadastrado com sucesso !', {
     //     position: toast.POSITION.TOP_RIGHT,
     //   });
