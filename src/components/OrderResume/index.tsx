@@ -75,7 +75,7 @@ export const OrderResume = () => {
 
   const irPagamento = () => {
     if (!isLoged) {
-      navigate('/client/register');
+      navigate('/admin/login');
     }
     setPagamento(true);
   }
