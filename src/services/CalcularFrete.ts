@@ -35,7 +35,13 @@ export function CalcularFrete(cep: string) {
     let valorPadrao = valor * multiplicador;
     let arrayRetorno: any[] = [];
     for (let i = 1; i <= 3; i++) {
-        arrayRetorno.push({ valor: (i * valorPadrao), dias: multiplicador * i });
+        let j = 1;
+        if (i == 1) {
+            j = 3;
+        } else if (i == 2) {
+            j = i;
+        }
+        arrayRetorno.push({ valor: (i * valorPadrao), dias: multiplicador * j });
     }
     return arrayRetorno;
 }
