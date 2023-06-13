@@ -20,6 +20,7 @@ interface FormData {
 export const OrderResume = () => {
   const { products, totalPrice, totalPriceNumber, isLoged, userLoged, cleanCart } = useContext(CartContext);
   const [frete, setFrete] = useState(0);
+  const [listaFretes, setListaFretes] = useState<any[]>([]);
   const [cep, setCep] = useState('');
   const [cepInvalido, setCepInvalido] = useState(false);
   const [freteIndisponivel, setFreteIndisponivel] = useState(false);
@@ -56,12 +57,19 @@ export const OrderResume = () => {
     } else {
       setCepInvalido(false);
       let valorFrete = CalcularFrete(cepCalcular);
-      if (valorFrete < 0) {
+      if (valorFrete.length === 0) {
         setFreteIndisponivel(true);
       } else {
         setFreteIndisponivel(false);
-        setFrete(valorFrete);
+        setFrete(valorFrete[0].valor);
+        setListaFretes(valorFrete)
       }
+    }
+  }
+
+  const alterarFrete = (e: any) => {
+    if (e.currentTarget) {
+      setFrete(+e.currentTarget.value);
     }
   }
 
@@ -145,10 +153,22 @@ export const OrderResume = () => {
                     <span>Produtos:  </span>
                     <span className='ml-1 text-green-600'> R$ {totalPrice}</span>
                   </div>
-                  <div className='flex flex-row w-48 justify-between flex-grow'>
-                    <span>Frete:  </span>
-                    <span className='ml-1 text-green-600'>R$ {frete.toFixed(2).replace('.', ',')}</span>
-                  </div>
+                  {listaFretes.length > 0 &&
+                    <div className='flex flex-row w-48 justify-between flex-grow'>
+                      <span>Frete:  </span>
+                      <div className='flex flex-col'>
+                        {listaFretes.map((objFrete: any) => {
+                          return (
+                            <div className='space-x-4'>
+                              <input checked={objFrete.valor === frete} onChange={alterarFrete} type='radio' name='rdFrete' value={objFrete.valor} key={objFrete.valor} />
+                              <label className='ml-1 text-green-600'>{objFrete.valor.toFixed(2).replace('.', ',')}</label>
+                              <label className='ml-1'>{objFrete.dias + ' dia'}{objFrete.dias > 1 ? 's' : ''}</label>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  }
                   <div className='flex flex-row w-48 mt-2 justify-between flex-grow border-t-2'>
                     <span>Total:  </span>
                     <span className='ml-1 text-green-600'>R$ {Number(totalPriceNumber + frete).toLocaleString()}</span>

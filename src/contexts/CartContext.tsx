@@ -61,12 +61,24 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
 
   const signIn = (user: User) => {
     setUserLoged(user);
+    localStorage.setItem('user', JSON.stringify(user));
     setIsLoged(true);
   }
 
   const signOut = () => {
     setUserLoged(undefined);
+    localStorage.setItem('user', '');
     setIsLoged(false);
+  }
+
+  const getUserLoged = () => {
+    let user = localStorage.getItem('user');
+    if (user && user !== '') {
+      let parseUser: User = JSON.parse(user);
+      //signIn(parseUser);
+      return parseUser;
+    }
+    return undefined;
   }
 
   const totalProductsInCart = products.reduce((total, item) => (total += item.amount), 0);
@@ -85,6 +97,11 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
       setProducts(JSON.parse(retrieveProducts));
       return;
     }
+
+    const user = getUserLoged();
+    if (user) {
+      signIn(user);
+    }
   }, []);
 
   useEffect(() => {
@@ -102,6 +119,7 @@ export const CartContextProvider = ({ children }: CartContextProviderProps) => {
         products,
         signIn,
         signOut,
+        getUserLoged,
         userLoged,
         isLoged,
         totalPriceNumber

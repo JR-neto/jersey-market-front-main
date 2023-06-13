@@ -4,10 +4,9 @@ export function CalcularFrete(cep: string) {
     let regiao = parseInt(cep.substring(0, 1));
 
     if (!regioesDisponiveis.includes(regiao)) {
-        return -1;
+        return [];
     }
 
-    
     let multiplicador = 1;
     switch (regiao) {
         case 0:
@@ -33,6 +32,10 @@ export function CalcularFrete(cep: string) {
     } else {
         valor = 30
     }
-    
-    return valor * multiplicador;
+    let valorPadrao = valor * multiplicador;
+    let arrayRetorno: any[] = [];
+    for (let i = 1; i <= 3; i++) {
+        arrayRetorno.push({ valor: (i * valorPadrao), dias: multiplicador * i });
+    }
+    return arrayRetorno;
 }

@@ -51,7 +51,6 @@ const Payment = (props: any) => {
     const alterarTipo = (e: any) => {
         if (e.currentTarget) {
             setTipo(+e.currentTarget.value);
-            console.log(e.currentTarget.value);
         }
     }
 
