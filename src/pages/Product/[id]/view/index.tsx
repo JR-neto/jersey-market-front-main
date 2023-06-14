@@ -5,6 +5,8 @@ import { Product } from '../../../../components/ProductCard';
 import styles from './styles.module.scss';
 import { CartContext } from '../../../../contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
+import starIconSource from '../../../../assets/star-icon.svg';
+import starIconFilledSource from '../../../../assets/star-icon-fill.svg';
 
 const ProductPage = () => {
     const { id } = useParams();
@@ -15,6 +17,7 @@ const ProductPage = () => {
     const [images, setImages] = useState<any[]>([])
     const { addNewProductToCart } = useContext(CartContext);
     const navigate = useNavigate();
+    const arrayEstrelas = [1, 2, 3, 4, 5];
 
     const getProduct = async () => {
         const { data } = await axios.get('https://jersey-market-api-production-1377.up.railway.app/product/list');
@@ -73,6 +76,20 @@ const ProductPage = () => {
                     <div className='pt-4'>
                         <span >Preço: {product?.price.toLocaleString()}</span>
                     </div>
+                    <div className='flex flex-row'>
+                        {
+                            arrayEstrelas.map((estrela: number) => {
+                                return (
+                                    <img
+                                        src={product && estrela <= Number(product.rating)
+                                            ? starIconFilledSource
+                                            : starIconSource
+                                        }
+                                    />
+                                )
+                            })
+                        }
+                    </div>
                 </div>
                 <button onClick={() => paginar(true)} disabled={!temProximo} className='border-2 bg-green-500 disabled:bg-zinc-200 rounded-full py-2 px-4'>
                     <span>{'>'}</span>
@@ -91,6 +108,7 @@ const ProductPage = () => {
                     </button>
                 </div>
             </div>
+
         </div>
     )
 }

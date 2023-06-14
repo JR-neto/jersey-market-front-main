@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect, useRef } from 'react';
 import { CartContext } from '../../contexts/CartContext';
-// import { Product } from '../../contexts/CartContext';
 import { Product } from '../ProductCard';
 import { ProductController } from '../ProductController';
 import './OrderResume.css'

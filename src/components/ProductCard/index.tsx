@@ -13,6 +13,7 @@ export type Product = {
   tags: string[];
   imagemSrc: string;
   amount: number;
+  rating?: number;
 };
 interface ProductCardProps {
   product: Product;

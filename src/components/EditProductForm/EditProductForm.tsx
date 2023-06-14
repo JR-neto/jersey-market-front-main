@@ -11,7 +11,8 @@ type Product = {
     price: string;
     name: string;
     status: number;
-    description: string
+    description: string;
+    rating?: number;
 }
 
 const EditProductForm = (props: any) => {
@@ -43,7 +44,8 @@ const EditProductForm = (props: any) => {
         price: yup.string().required('Preço é obrigatório.').test('test-date', 'Preço inválido ou negativo.', validarPositivo).default(product.price.toString()),
         name: yup.string().required('Nome é obrigatório.').default(product.name),
         description: yup.string().required('Descrição é obrigatório.').default(product.description),
-        status: yup.number().default(initialStatus)
+        status: yup.number().default(initialStatus),
+        rating: yup.number().default(0)
     });
 
     const initialValues = schema.cast({});
@@ -159,6 +161,23 @@ const EditProductForm = (props: any) => {
                 >
                     <option value="1">Ativo</option>
                     <option value="0">Inativo</option>
+                </select>
+
+                <label className={classesLabel}>
+                    Avaliação:
+                </label>
+                <select
+                    className={`${classesInput} ${errors.status && 'border-red-500'}`}
+                    id='rating'
+                    placeholder="Avaliação"
+                    {...register('rating')}
+                >
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
                 </select>
             </div>
             <div className='w-full flex justify-center'>
