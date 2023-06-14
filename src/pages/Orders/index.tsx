@@ -169,7 +169,7 @@ const Orders = (props: any) => {
                                     </div>
                                     <div className='flex flex-1 justify-center flex-row'>
                                         <span className='font-bold pr-2'>Valor: </span>
-                                        <span>R$ {item.valorTotal.toLocaleString()}</span>
+                                        <span>R$ {(item.valorTotal + item.frete).toLocaleString()}</span>
                                     </div>
                                     <div className='flex flex-1 justify-center flex-row'>
                                         <span className='font-bold pr-2'>Total de itens: </span>
