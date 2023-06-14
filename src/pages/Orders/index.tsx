@@ -187,9 +187,16 @@ const Orders = (props: any) => {
                                     </div>
                                 </div>
                                 <div className='flex w-full flex-row justify-between ml-8'>
-                                    <div>
-                                        <span className='font-bold pr-2'>Endereço:</span>
-                                        <span>{buscaEndereco(item.addressId)}</span>
+                                    <div className='flex flex-row space-x-8'>
+                                        <div>
+                                            <span className='font-bold pr-2'>Endereço:</span>
+                                            <span>{buscaEndereco(item.addressId)}</span>
+                                        </div>
+                                        <div>
+                                            <span className='font-bold pr-2'>Frete:</span>
+                                            <span>{item.frete.toFixed(2).replace('.', ',')}</span>
+                                        </div>
+
                                     </div>
                                     {userLoged.userGroup &&
                                         <div className='pr-12'>
