@@ -20,7 +20,7 @@ export const ProductController = ({ product, pageType }: ProductControllerProps)
     id: product.id,
     name: product.name,
     price: product.price,
-    imageSrc: product.imageSrc,
+    imageSrc: product.imagemSrc,
     amount: productAmount,
   };
 

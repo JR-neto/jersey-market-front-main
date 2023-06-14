@@ -77,7 +77,13 @@ export const OrderResume = () => {
     if (!isLoged) {
       navigate('/admin/login');
     }
-    setPagamento(true);
+    if (userLoged.userGroup) {
+      toast.error('Administradores e Estoquistas não podem realizar compras!', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else {
+      setPagamento(true);
+    }
   }
 
   const finalizarCompra = async (tipo: number, dadosCartao?: FormData) => {
